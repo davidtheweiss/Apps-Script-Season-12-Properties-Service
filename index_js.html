@@ -1,0 +1,32 @@
+<script>
+  [...document.getElementsByClassName('book')].forEach(book => {
+    book.addEventListener('click', e => {
+      [...document.getElementsByClassName('book')].forEach(otherBook => {
+        otherBook.classList.remove('selected');
+      });
+      book.classList.add('selected');
+      
+      document.getElementById('select_book').disabled = false;
+    });
+  });
+  
+  document.getElementById('select_book').addEventListener('click', e => {
+    e.target.disabled = true;
+    [...document.getElementsByClassName('book')].forEach(book => {
+      if (book.classList.contains('selected')) {
+        document.querySelector(`p[data-story=${book.id}]`).style.display = 'block';
+      } else {
+        document.querySelector(`p[data-story=${book.id}]`).style.display = 'none';
+      }
+    });
+  });
+  
+  function clicked(el) {
+    el.style.cursor = 'progress';
+    google.script.run.withSuccessHandler(onSuccess).storeUserLanguage(el.id);
+  }
+  
+  function onSuccess(redirect) {
+    window.open(redirect,'_top');
+  }
+</script>
